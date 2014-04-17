@@ -1,0 +1,21 @@
+﻿head
+  title Image List
+  body
+    table(style='width: 30%;')
+      tr
+        td Date
+        td
+          | Name
+        td
+          | Category
+        td
+          | Image
+        each pro, i in imagelist
+            tr
+            td= pro.DATE
+            td
+              | #{pro.NAME}
+            td
+              | #{pro.Category}
+            td
+              img(src="#{pro.IMAGENAME}")

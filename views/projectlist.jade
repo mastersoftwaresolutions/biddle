@@ -1,0 +1,65 @@
+extends layout
+
+block content
+  form#formSearch(name="searchproject",method="post",action="/searchproject")
+    body
+    .main
+      .section-main
+        .header-main
+          .dibble-hdng
+            h4
+              p  B
+              | iddle
+          .search-result
+            .search-hvr-tct
+              input#txtKeyWord(placeholder='Search your projects', type='text')
+              input#hdKeyId(type="hidden", name="hdKeyId")  
+            button.search-btn#btnSearch(type="submit") Search
+      .middle-main
+        .projects
+        
+         .search-info-t
+          label#lblMsg(style='display:;color:red;position:absolute;margin-top: 50px;' name='lblMsg')= msg 
+         .flds-search
+         
+           each pro, i in projectlist
+            .search-cntnt   
+              |Title:     
+              h4=  pro.TITLE
+              label(for='Url') Url: 
+              a(href="#{pro.URL}" target="_blank")= pro.URL
+              if pro.GithubUrl != ""
+                p
+                 label(for='Url') GithubURL:
+                 a(href="#{pro.GithubUrl}" target="_blank")= pro.GithubUrl
+              
+
+              label(for='Description') Description:
+              p#pSub=pro.DESC 
+              a#aNew(href='javascript:void(0)' style='display:none;color:#7EA0FA') View More 
+              .line          
+              p#pFull(style="display:none")=pro.DESC
+              a#aHide(href='javascript:void(0)' style='display:none;color:#7EA0FA') Hide 
+              .line
+              ul.tag
+                li    
+                  label(for='Keywords') Keywords:            
+                  -var keys=pro.KEYS.split(',') 
+                  each key,ix in keys  
+                    a(href='/projectlist?key='+keys[ix])=  keys[ix]                
+              a.copy(title='Copy', href='javascript:void(0);')
+              .posted-dt
+                i Posted On :                                
+                i= pro.CREATEDDATE                
+                
+                em Posted By :              
+                i= pro.DEVELOPER 
+                .line
+                a(href="/edit?key="+pro._id) Edit
+                | &nbsp;
+                a#btnDelete(href="/deleteproject?key="+pro._id) Delete
+      .footer
+        p Developed by Master Software Solutions 
+
+
+

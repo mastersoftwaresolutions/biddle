@@ -1,0 +1,8 @@
+extends layout
+
+block content
+    h1= title
+    form#formAddUser(name="login",method="post",action="/checklogin")
+        input#inputUserName(type="text", placeholder="username", name="uname")
+        input#inputPassword(type="password", placeholder="Password", name="pwd")
+        button#btnSubmit(type="submit") submit

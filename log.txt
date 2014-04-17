@@ -1,0 +1,12 @@
+nohup: ignoring input and appending output to ‘nohup.out’
+Failed to load c++ bson extension, using pure JS version
+Error: ENOENT, open '/var/www/biddle/node_modules/express/node_modules/connect/node_modules/static-favicon/../public/favicon.ico'
+Error: ENOENT, open '/var/www/biddle/node_modules/express/node_modules/connect/node_modules/static-favicon/../public/favicon.ico'
+Error: ENOENT, open '/var/www/biddle/node_modules/express/node_modules/connect/node_modules/static-favicon/../public/favicon.ico'
+Error: ENOENT, open '/var/www/biddle/node_modules/express/node_modules/connect/node_modules/static-favicon/../public/favicon.ico'
+Error: ENOENT, open '/var/www/biddle/node_modules/express/node_modules/connect/node_modules/static-favicon/../public/favicon.ico'
+Error: ENOENT, open '/var/www/biddle/node_modules/express/node_modules/connect/node_modules/static-favicon/../public/favicon.ico'
+Error: ENOENT, open '/var/www/biddle/node_modules/express/node_modules/connect/node_modules/static-favicon/../public/favicon.ico'
+Error: ENOENT, open '/var/www/biddle/node_modules/express/node_modules/connect/node_modules/static-favicon/../public/favicon.ico'
+Error: ENOENT, open '/var/www/biddle/node_modules/express/node_modules/connect/node_modules/static-favicon/../public/favicon.ico'
+Error: ENOENT, open '/var/www/biddle/node_modules/express/node_modules/connect/node_modules/static-favicon/../public/favicon.ico'

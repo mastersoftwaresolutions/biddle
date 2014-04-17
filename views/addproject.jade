@@ -1,0 +1,45 @@
+extends layout
+
+block content
+   
+   .wrap_bx
+    h1= title
+    form#formAddProject(name="newproject",method="post")
+      p
+        label#lblMsg(style='display:none;color:red' name='lblMsg') Project added successfully. 
+        input#hdnId(type="hidden" name="hdnId" value="0")
+      p
+       |Title:
+       input#txtTitle.txtbox(type="text", placeholder="Enter atleast 50 characters", name="txtTitle")
+       span.title-error(style='display: none; color:red') Title must have atleast 50 characters
+       p 
+        |Url:
+        input#txtUrl.txtbox(type="text", placeholder="eg:http://www.example.com", name="txtUrl")
+        span.url-error(style='display: none; color:red') Enter a valid Url
+        span.urlempty-error(style='display: none; color:red') This field can't be left empty
+      p 
+        |Github Url:
+        input#txtgitUrl.txtbox(type="text", placeholder="eg:http://www.example.com", name="txtgitUrl")
+        span.giturl-error(style='display: none; color:red') Enter a valid Url
+        span.giturlempty-error(style='display: none; color:red') This field can't be left empty
+       p
+        |Description:
+        textarea#txtShortDesc.txtbox2(type="text", placeholder="Minimum 100 characters", name="txtShortDesc")
+        span.desc-error(style='display: none; color:red') Description must be about 100 characters long
+       p
+        |Keywords:
+        input#txtKeyWords(type="text", placeholder="Keywords", name="txtKeyWords")  
+        span.key-error(style='display: none; color:red') There must be atleast one key
+        input#hdKeyId(type="hidden", name="hdKeyId")  
+        //- a#aNew(href='javascript:void(0)' ) add new keyword 
+        //div#divNew(style='display: none;')
+        // input#txtNew(type="text")
+        // button#btnKeySubmit(type="button") Add
+       p
+        |Developer:
+        input#txtDeveloper(type="text", placeholder="developer", name="txtDeveloper")   
+        input#hdId(type="hidden", name="hdId")  
+       p
+        input#chkActive(type="checkbox", name="chkActive")
+       p 
+        button#btnSubmit.submit(type="button") Submit

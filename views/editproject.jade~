@@ -1,0 +1,29 @@
+extends layout
+
+block content
+    h1= title
+    form#formAddProject(name="newproject",method="post",action="/newproject")
+      each pro, i in project  
+        p
+          label#lblMsg(style='display:;color:red' name='lblMsg')=msg
+          input#hdnId(type="hidden" name="hdnId" value=pro._id)
+         p
+          input#txtTitle(type="text", placeholder="title", name="txtTitle" value=pro.TITLE)
+         p 
+          input#txtUrl(type="text", placeholder="url", name="txtUrl" value=pro.URL)
+         p
+          textarea#txtShortDesc(type="text", placeholder="description", name="txtShortDesc")= pro.DESC
+         p
+          input#txtKeyWords(type="text", placeholder="key words", name="txtKeyWords")  
+          input#hdKeyId(type="hidden", name="hdKeyId")  
+          a#aNew(href='javascript:void(0)' ) add new keyword 
+          div#divNew(style='display: none;')
+           input#txtNew(type="text")
+           button#btnKeySubmit(type="button") Add
+         p
+          input#txtDeveloper(type="text", placeholder="developer", name="txtDeveloper")   
+          input#hdId(type="hidden", name="hdId")  
+         p
+          input#chkActive(type="checkbox", name="chkActive" value=pro.ISACTIVE)
+         p 
+          button#btnSubmit(type="submit") submit

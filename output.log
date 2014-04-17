@@ -1,0 +1,53 @@
+Failed to load c++ bson extension, using pure JS version
+Express server listening on port 3002
+[90mGET / [36m304 [90m289ms[0m
+[90mGET /stylesheets/style.css [36m304 [90m11ms[0m
+[90mGET /stylesheets/biddle.css [36m304 [90m2ms[0m
+[90mGET /stylesheets/Token/token-input-facebook.css [36m304 [90m2ms[0m
+[90mGET /javascripts/lib/jquery-1.11.0.js [36m304 [90m2ms[0m
+[90mGET /javascripts/lib/angular.min.js [36m304 [90m1ms[0m
+[90mGET /javascripts/js/newproject.js [36m304 [90m2ms[0m
+[90mGET /javascripts/js/search.js [36m304 [90m0ms[0m
+[90mGET /javascripts/autocomplete/developerautocomplete.js [36m304 [90m1ms[0m
+[90mGET /javascripts/autocomplete/keywordsautocomplete.js [36m304 [90m0ms[0m
+[90mGET /javascripts/autocomplete/searchaotocomplete.js [36m304 [90m1ms[0m
+[90mGET /javascripts/lib/Token/jquery.tokeninput.js [36m304 [90m2ms[0m
+[90mGET /images/m.png [36m304 [90m1ms[0m
+[90mGET / [36m304 [90m81ms[0m
+[90mGET /stylesheets/style.css [36m304 [90m2ms[0m
+[90mGET /stylesheets/biddle.css [36m304 [90m1ms[0m
+[90mGET /stylesheets/Token/token-input-facebook.css [36m304 [90m1ms[0m
+[90mGET /javascripts/lib/jquery-1.11.0.js [36m304 [90m2ms[0m
+[90mGET /javascripts/lib/angular.min.js [36m304 [90m2ms[0m
+[90mGET /javascripts/js/newproject.js [36m304 [90m2ms[0m
+[90mGET /javascripts/js/search.js [36m304 [90m1ms[0m
+[90mGET /javascripts/autocomplete/developerautocomplete.js [36m304 [90m1ms[0m
+[90mGET /javascripts/autocomplete/keywordsautocomplete.js [36m304 [90m1ms[0m
+[90mGET /javascripts/autocomplete/searchaotocomplete.js [36m304 [90m0ms[0m
+[90mGET /javascripts/lib/Token/jquery.tokeninput.js [36m304 [90m1ms[0m
+[90mGET /images/m.png [36m304 [90m1ms[0m
+[90mGET / [36m304 [90m114ms[0m
+[90mGET /stylesheets/style.css [36m304 [90m31ms[0m
+[90mGET /stylesheets/biddle.css [36m304 [90m30ms[0m
+[90mGET /javascripts/js/newproject.js [36m304 [90m28ms[0m
+[90mGET /javascripts/lib/jquery-1.11.0.js [36m304 [90m30ms[0m
+[90mGET /javascripts/lib/angular.min.js [36m304 [90m30ms[0m
+[90mGET /javascripts/js/search.js [36m304 [90m4ms[0m
+[90mGET /javascripts/autocomplete/developerautocomplete.js [36m304 [90m3ms[0m
+[90mGET /stylesheets/Token/token-input-facebook.css [36m304 [90m37ms[0m
+[90mGET /javascripts/autocomplete/keywordsautocomplete.js [36m304 [90m4ms[0m
+[90mGET /javascripts/autocomplete/searchaotocomplete.js [36m304 [90m3ms[0m
+[90mGET /javascripts/lib/Token/jquery.tokeninput.js [36m304 [90m1ms[0m
+[90mGET /images/m.png [36m304 [90m15ms[0m
+Error: ENOENT, open '/var/www/biddle/node_modules/express/node_modules/connect/node_modules/static-favicon/../public/favicon.ico'
+Error: ENOENT, open '/var/www/biddle/node_modules/express/node_modules/connect/node_modules/static-favicon/../public/favicon.ico'
+Error: ENOENT, open '/var/www/biddle/node_modules/express/node_modules/connect/node_modules/static-favicon/../public/favicon.ico'
+events.js:82
+      throw er; // Unhandled 'error' event
+            ^
+Error: Connection lost: The server closed the connection.
+    at Protocol.end (/var/www/biddle/node_modules/mysql/lib/protocol/Protocol.js:78:13)
+    at Socket.<anonymous> (/var/www/biddle/node_modules/mysql/lib/Connection.js:78:28)
+    at Socket.EventEmitter.emit (events.js:126:20)
+    at _stream_readable.js:896:16
+    at process._tickCallback (node.js:339:11)

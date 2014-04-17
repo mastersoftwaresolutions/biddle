@@ -1,0 +1,31 @@
+extends layout
+
+block content
+   
+   .wrap_bx
+    h1= title
+    form#formAddProject(name="newproject",method="post",action="/newproject")
+      p
+        label#lblMsg(style='display:;color:red' name='lblMsg')= msg
+        input#hdnId(type="hidden" name="hdnId" value="0")
+      p
+       input#txtTitle.txtbox(type="text", placeholder="Title", name="txtTitle")
+       
+       p 
+        input#txtUrl.txtbox(type="text", placeholder="Url", name="txtUrl")
+       p
+        textarea#txtShortDesc.txtbox2(type="text", placeholder="Description", name="txtShortDesc")
+       p
+        input#txtKeyWords(type="text", placeholder="Keywords", name="txtKeyWords")  
+        input#hdKeyId(type="hidden", name="hdKeyId")  
+        //- a#aNew(href='javascript:void(0)' ) add new keyword 
+        div#divNew(style='display: none;')
+         input#txtNew(type="text")
+         button#btnKeySubmit(type="button") Add
+       p
+        input#txtDeveloper(type="text", placeholder="developer", name="txtDeveloper")   
+        input#hdId(type="hidden", name="hdId")  
+       p
+        input#chkActive(type="checkbox", name="chkActive")
+       p 
+        button#btnSubmit.submit(type="submit") Submit

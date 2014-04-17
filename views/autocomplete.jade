@@ -1,0 +1,7 @@
+span
+	input.autocomplete.input(type='text', ng-model='inputText', ng-keyup='commandKeyUp($event)', ng-keydown='commandKeyDown($event)', ng-focus='commandActivate()', ng-click='commandActivate()')
+    .autocomplete.options
+    div(ng-repeat='item in filteredItems | limitTo:maxOptions')
+      div(ng-class='{ autocomplete:1, item:1, highlight: ($index == state.highlightedIndex) }', ng-click='commandClick(item)', ng-mouseover='highlightItem(item)', ng-transclude='ng-transclude')
+    .autocomplete.noitems(ng-show='filteredItems.length == 0')
+      | {{noItemText}}

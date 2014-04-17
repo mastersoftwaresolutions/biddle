@@ -1,0 +1,38 @@
+extends layout
+
+block content
+   .wrap_bx
+    h1= title
+    form#formAddProject(name="newproject",method="post",action="/newproject")
+      each pro, i in project  
+        p
+          label#lblMsg( style='display:;color:red' name='lblMsg')=msg
+          input#hdnId(type="hidden" name="hdnId" value=pro._id)
+        p
+          |Title:
+          input#txtTitle.txtbox(type="text", placeholder="title", name="txtTitle" value=pro.TITLE)
+        p
+          |Url: 
+          input#txtUrl.txtbox(type="text", placeholder="url", name="txtUrl" value=pro.URL)
+        p
+          |Github Url: 
+          input#txtgitUrl.txtbox(type="text", placeholder="Github url", name="txtgitUrl" value=pro.GithubUrl)
+        p
+          |Description:
+          textarea#txtShortDesc.txtbox2(type="text", placeholder="description", name="txtShortDesc")= pro.DESC
+        p
+          |Keywords:
+          input#txtKeyWords(type="text", placeholder="key words", name="txtKeyWords")  
+          input#hdKeyId(type="hidden", name="hdKeyId" value=pro.KEYS)  
+          //a#aNew(href='javascript:void(0)' ) add new keyword 
+          //div#divNew(style='display: none;')
+          // input#txtNew.txtbox(type="text")
+          // button#btnKeySubmit(type="button") Add
+        p
+          |Developer:
+          input#txtDeveloper(type="text", placeholder="developer", name="txtDeveloper")   
+          input#hdId(type="hidden", name="hdId" value=pro.DEVELOPER)  
+        p
+          input#chkActive(type="checkbox", name="chkActive" value=pro.ISACTIVE)
+        p 
+          button#btnSubmit.submit(type="submit") Submit
