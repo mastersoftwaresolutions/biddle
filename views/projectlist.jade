@@ -1,5 +1,5 @@
 extends layout
-
+block navigation
 block content
   form#formSearch(name="searchproject",method="post",action="/searchproject")
     body
@@ -8,13 +8,26 @@ block content
         .header-main
           .dibble-hdng
             h4
-              p  B
-              | iddle
+              a(href='/')
+                p  B
+                p.bid iddle
           .search-result
             .search-hvr-tct
               input#txtKeyWord(placeholder='Search your projects', type='text')
               input#hdKeyId(type="hidden", name="hdKeyId")  
             button.search-btn#btnSearch(type="submit") Search
+          .cssmenu
+            ul
+              li
+                a(href='/')
+                  span Home
+              li
+                a(href='/addproject')
+                  span Add Project
+              li
+                a(href='/projectlist')
+                  span Project List
+              
       .middle-main
         .projects
         
@@ -24,17 +37,18 @@ block content
          
            each pro, i in projectlist
             .search-cntnt   
-              |Title:     
+              |     
               h4=  pro.TITLE
-              label(for='Url') Url: 
+              label(for='Url')  
               a(href="#{pro.URL}" target="_blank")= pro.URL
               if pro.GithubUrl != ""
                 p
                  label(for='Url') GithubURL:
                  a(href="#{pro.GithubUrl}" target="_blank")= pro.GithubUrl
-              
+              else
+                br
 
-              label(for='Description') Description:
+              label(for='Description') 
               p#pSub=pro.DESC 
               a#aNew(href='javascript:void(0)' style='display:none;color:#7EA0FA') View More 
               .line          
@@ -43,7 +57,7 @@ block content
               .line
               ul.tag
                 li    
-                  label(for='Keywords') Keywords:            
+                  label(for='Keywords')           
                   -var keys=pro.KEYS.split(',') 
                   each key,ix in keys  
                     a(href='/projectlist?key='+keys[ix])=  keys[ix]                
@@ -55,11 +69,10 @@ block content
                 em Posted By :              
                 i= pro.DEVELOPER 
                 .line
-                a(href="/edit?key="+pro._id) Edit
+                a.upc(href="/edit?key="+pro._id, title='Edit') 
                 | &nbsp;
-                a#btnDelete(href="/deleteproject?key="+pro._id) Delete
+                a#btnDelete(href="/deleteproject?key="+pro._id, title='Delete') 
       .footer
         p Developed by Master Software Solutions 
-
 
 

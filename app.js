@@ -17,7 +17,8 @@ var monk = require('monk');
 var db = monk('localhost:27017/nodetest1');
 
 var app = express();
-
+var server = http.createServer(app);
+var io = require('socket.io').listen(server);
 // all environments
 app.set('port', process.env.PORT || 3002);
 app.set('views', path.join(__dirname, 'views'));
@@ -58,6 +59,11 @@ app.get('/projectlist', routes.projectlist(db));
 app.get('/deleteproject', routes.deleteproject(db));
 app.get('/editproject', routes.editproject);
 app.get('/edit', routes.edit(db));
+app.get('/newbid', routes.newbid);
+app.post('/reportbid', routes.reportbid);
+app.get('/searchbid', routes.searchbid);
+app.post('/bidsave', routes.bidsave);
+app.post('/bidgetsearch',routes.bidgetsearch);
 //app.get('/imagelist', routes.imagelist(db));
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));

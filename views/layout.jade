@@ -4,6 +4,7 @@ html
     title= title
     link(rel='stylesheet', href='/stylesheets/style.css')
     link(rel='stylesheet', href='/stylesheets/biddle.css')
+    link(rel='stylesheet', href='/stylesheets/nav.css')
     link(rel='stylesheet', href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,300italic,600,400italic,600italic,700,700italic,800italic,800')
     link(rel='stylesheet', href='/stylesheets/Token/token-input-facebook.css')
     script(src="/javascripts/lib/jquery-1.11.0.js")
@@ -16,4 +17,17 @@ html
     script(src="/javascripts/autocomplete/searchaotocomplete.js")
     script(src="/javascripts/lib/Token/jquery.tokeninput.js")
   body
+    block navigation
+      .cssmenu
+        ul
+          li.active
+            a(href='/')
+              span Home
+          li
+            a(href='/addproject')
+              span Add Project
+          li
+            a(href='/projectlist')
+              span Project List
+
     block content

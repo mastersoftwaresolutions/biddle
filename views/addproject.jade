@@ -1,12 +1,29 @@
 extends layout
-
+block navigation
 block content
-   
+  .header-main
+    .dibble-hdng
+      h4
+        a(href='/')
+          p  B
+          p.bid iddle
+          
+    .cssmenu
+      ul
+        li
+          a(href='/')
+            span Home
+        li
+          a(href='/addproject')
+            span Add Project
+        li
+          a(href='/projectlist')
+            span Project List
    .wrap_bx
     h1= title
     form#formAddProject(name="newproject",method="post")
       p
-        label#lblMsg(style='display:none;color:red' name='lblMsg') Project added successfully. 
+        label#lblMsg(style='display:none;color:green' name='lblMsg') Project added successfully. 
         input#hdnId(type="hidden" name="hdnId" value="0")
       p
        |Title:
@@ -21,7 +38,7 @@ block content
         |Github Url:
         input#txtgitUrl.txtbox(type="text", placeholder="eg:http://www.example.com", name="txtgitUrl")
         span.giturl-error(style='display: none; color:red') Enter a valid Url
-        span.giturlempty-error(style='display: none; color:red') This field can't be left empty
+        
        p
         |Description:
         textarea#txtShortDesc.txtbox2(type="text", placeholder="Minimum 100 characters", name="txtShortDesc")
@@ -39,7 +56,7 @@ block content
         |Developer:
         input#txtDeveloper(type="text", placeholder="developer", name="txtDeveloper")   
         input#hdId(type="hidden", name="hdId")  
-       p
-        input#chkActive(type="checkbox", name="chkActive")
+       //p
+        //input#chkActive(type="checkbox", name="chkActive")
        p 
         button#btnSubmit.submit(type="button") Submit

@@ -1,0 +1,39 @@
+
+<form class="form-horizontal" role="form" data-toggle="validator" id="BidForm" name="BidForm" ng-submit="createBid()" >
+      <div>
+      <span style="display: none; color:green" class="success-msg">Data saved successfully</span>
+      </div>
+      Bidder Name:&nbsp;&nbsp;&nbsp;<select class= "form-control" ng-model="biddername" >
+         <option  ng-repeat="bidders in biddingreport.biddingreport" >{{bidders.FullName}}</option>
+      </select>
+      <span style="display: none; color:red" class="name-error">Please select a bidder name</span><br><br>
+      <div>
+      Job Url :<br> <input type="text" id="joburl" ng-model="url" class="form-control" placeholder="Enter a valid url" />
+      <span style="display: none; color:red" class="url-error">Enter a valid url</span>
+      <span style="display: none; color:red" class="urlempty-error">Please enter a url</span>
+    </div><br><br>
+    <div>
+      Job Portal:&nbsp;&nbsp;&nbsp;<select class= "form-control" ng-model="jobportal">
+        <option value="odesk">odesk</option>
+  	   <option value="elance">elance</option>
+      </select>
+    </div><br><br>
+    <div>
+      Status:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<select  class= "form-control" ng-model="status">
+        <option  value="Working">Working</option>
+  	<option value="Applied">Applied</option>
+      </select>
+      <span style="display: none; color:red" class="status-error">Please select the status</span>
+    </div><br><br>
+      <div class="checkbox">
+    <label for="is_invite">
+      <input type="checkbox" ng-model="isinvite"> IsInvite
+    </label>
+    </div><br>
+      Comments/Remarks<br>
+      <textarea type="text" ng-model="comments" class="form-control" >
+      </textarea><br><br>
+<button type="submit" class= "btn btn-primary">Submit</button> 
+</form>
+
+

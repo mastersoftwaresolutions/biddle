@@ -1,0 +1,41 @@
+doctype html
+html(lang='en', ng-app='biddle')
+  head
+    .header-main
+      .dibble-hdng
+        h4
+         a(href='/')
+           p  B
+           p.bid iddle
+      block navigation
+      .cssmenu
+        ul
+          li.active
+            a(href='/')
+              span Home
+          li
+            a(href='/addproject')
+              span Add Project
+          li
+            a(href='/projectlist')
+              span Project List
+                
+    meta(charset='utf-8')
+    meta(name='viewport', content='width=device-width, initial-scale=1, user-scalable=no')
+    title Biddle
+    link(rel='stylesheet' href='//netdna.bootstrapcdn.com/bootstrap/3.0.1/css/bootstrap.min.css')
+    link(rel='stylesheet', href='/stylesheets/style.css')
+    link(rel='stylesheet', href='/stylesheets/biddle.css')
+    link(rel='stylesheet', href='/stylesheets/nav.css')
+    script(src='//ajax.googleapis.com/ajax/libs/angularjs/1.0.8/angular.min.js')
+    script(src='//ajax.googleapis.com/ajax/libs/angularjs/1.0.8/angular-resource.min.js')
+    script(src='//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js')
+    //script(src='//netdna.bootstrapcdn.com/bootstrap/3.0.1/js/bootstrap.min.js')
+    //script(src='/socket.io/socket.io.js')
+    script(src='/javascripts/app.js')
+    script(src='/javascripts/services.js')
+    script(src='/javascripts/controller.js')
+    script(src='/javascripts/js/validatebidform.js')
+  body(ng-controller="bidCtrl")
+    div.container
+      div(ng-view)

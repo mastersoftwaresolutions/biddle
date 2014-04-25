@@ -7,6 +7,94 @@
 var connection = require('../db.js').localConnect();
 connection.connect();
 
+// to connect mongodb
+var mongoose = require('mongoose');
+var db;
+if (process.env.VCAP_SERVICES) {
+   var env = JSON.parse(process.env.VCAP_SERVICES);
+   db = mongoose.createConnection(env['mongodb-2.2'][0].credentials.url);
+} else {
+   db = mongoose.createConnection('localhost', 'nodetest1');
+}
+
+// Get bidder schema 
+var biddleSchema = require('../models/biddle.js').biddleSchema;
+var Bids = db.model('biddle', biddleSchema);
+//var ObjectId = require('mongoose').Schema.ObjectId;
+var kitty = new Bids(biddleSchema);
+kitty.save(function (err) {
+  if (err) // ...
+  console.log('meow');
+});
+//fetch bidders data from mysql
+exports.reportbid = function(req, res){
+    connection.query('SELECT * FROM employees WHERE Designation = "Bidding Manager"', function(error , response){
+        if (!error){
+            res.json({"biddingreport":response});
+        }
+
+    });
+  
+};
+
+//sachin
+exports.bidsave = function(req, res) {
+    console.log(req.body);
+    var BidderName=req.body.BidderName;
+    var JobUrl=req.body.JobUrl;
+    var JobPortal=req.body.JobPortal;
+    var Status=req.body.Status;
+    var Isinvite=req.body.Isinvite;
+    var Comments=req.body.Comments; 
+var bids = new Bids(req.body);
+bids.save(function (err, doc) {
+        if(err || !doc) {
+           res.json({err : "error"});
+        } else {
+          res.json({success : "saved successfully"});
+        }
+      });
+
+};
+
+
+
+
+exports.bidgetsearch = function(req, res) {
+    //console.log(req.body, "ghhug");
+    var jobid = req.body.JobId;
+    var joburl = req.body.Joburl;
+    //console.log("here",joburl);
+
+    if (jobid && !joburl){ 
+     var cat = { JobId : jobid };
+    }else if(joburl && !jobid) {
+       var cat = { JobUrl : joburl };
+    }else{
+      var cat = { JobId : jobid };
+    }
+
+    Bids.find(cat, function(err, bids) {
+    if (!err){
+         res.json({'bids':bids});
+        }else {
+            res.json({'error':'error'});
+        }
+
+});
+}
+
+// to render new bid form
+exports.newbid = function(req, res){
+  res.render('basic', { title: 'Add New Bid' });
+};
+
+//to render search bid form
+exports.searchbid = function(req, res){
+  res.render('basic', { title: 'Add New Bid' });
+};
+
+
 // to render addproject view
 exports.addproject = function(req, res){
   res.render('addproject', { title: 'Add New Project' });
@@ -16,7 +104,6 @@ exports.addproject = function(req, res){
 exports.newproject = function(db) {
     return function(req, res) {
         var datetime = new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '');
-
         // Get our form values. These rely on the "name" attributes
         var title = req.body.txtTitle;
         var url = req.body.txtUrl;
@@ -28,8 +115,7 @@ exports.newproject = function(db) {
         var createdDate = datetime;
         var is_Active = req.body.chkActive;
         var _id=req.body.hdnId;
-
-        if (title && url && desc && keys && developer) {
+        if (title && url && desc && keys) {
         //var urlvalid= /(http(s)?:\\)?([\w-]+\.)+[\w-]+[.com|.in|.org]+(\[\?%&=]*)?/
         if (!url.match(/^(ht|f)tps?:\/\/[a-z0-9-\.]+\.[a-z]{2,4}\/?([^\s<>\#%"\,\{\}\\|\\\^\[\]`]+)?$/)){
             res.render('addproject', {title:'Add New Project', msg: 'Enter valid Url' });
@@ -106,7 +192,7 @@ exports.newproject = function(db) {
                 res.send("There was a problem adding the information to the database.");
             }
             else {
-                res.location("editproject");
+                //res.location("editproject");
                 res.render('addproject', {title:'Edit Project', msg: 'Project updated successfully.' });
                 }
             });
@@ -269,7 +355,7 @@ exports.edit= function(db)
                 console.log('editproject',doc);
                 if(!err)
                     console.log('editproject',doc);
-                res.render('editproject',{'title':'Edit Project','project':doc});
+                    res.render('editproject',{'title':'Edit Project','project':doc});
             });
     };
 };

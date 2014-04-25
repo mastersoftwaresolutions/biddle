@@ -1,38 +1,71 @@
 extends layout
-
+block navigation
 block content
+  .header-main
+    .dibble-hdng
+      h4
+        a(href='/')
+          p  B
+          p.bid iddle
+          
+    .cssmenu
+      ul
+        li
+          a(href='/')
+            span Home
+        li
+          a(href='/addproject')
+            span Add Project
+        li
+          a(href='/projectlist')
+            span Project List
    .wrap_bx
     h1= title
-    form#formAddProject(name="newproject",method="post",action="/newproject")
+    form#formAddProject(name="newproject")
       each pro, i in project  
         p
-          label#lblMsg( style='display:;color:red' name='lblMsg')=msg
+          label#lblMsg( style='display:none;color:green' name='lblMsg') Project Updated Successfully
           input#hdnId(type="hidden" name="hdnId" value=pro._id)
         p
           |Title:
           input#txtTitle.txtbox(type="text", placeholder="title", name="txtTitle" value=pro.TITLE)
+          span.title-error(style='display: none; color:red') Title must have atleast 50 characters
         p
           |Url: 
-          input#txtUrl.txtbox(type="text", placeholder="url", name="txtUrl" value=pro.URL)
+          input#txtUrl.txtbox(type="text", placeholder="eg:http://www.example.com", name="txtUrl" value=pro.URL)
+          span.url-error(style='display: none; color:red') Enter a valid Url
+          span.urlempty-error(style='display: none; color:red') This field can't be left empty
+          
         p
           |Github Url: 
-          input#txtgitUrl.txtbox(type="text", placeholder="Github url", name="txtgitUrl" value=pro.GithubUrl)
+          input#txtgitUrl.txtbox(type="text", placeholder="eg:http://www.example.com", name="txtgitUrl" value=pro.GithubUrl)
+          span.giturl-error(style='display: none; color:red') Enter a valid Url
+          span.giturlempty-error(style='display: none; color:red') This field can't be left empty
         p
           |Description:
           textarea#txtShortDesc.txtbox2(type="text", placeholder="description", name="txtShortDesc")= pro.DESC
-        p
+          span.desc-error(style='display: none; color:red') Description must be about 100 characters long
+    
+        p.words
           |Keywords:
-          input#txtKeyWords(type="text", placeholder="key words", name="txtKeyWords")  
-          input#hdKeyId(type="hidden", name="hdKeyId" value=pro.KEYS)  
+          input#edittxtKeyWords(type="text", placeholder="key words", name="edittxtKeyWords") 
+          span.key-error(style='display: none; color:red') Keywords can't be set empty
+          input#hdKeyId(type="hidden", name="hdKeyId" value=pro.KEYS) 
+          input#hdKeys(type="hidden", name="hdKeys" value=pro.KEYS)
           //a#aNew(href='javascript:void(0)' ) add new keyword 
           //div#divNew(style='display: none;')
           // input#txtNew.txtbox(type="text")
           // button#btnKeySubmit(type="button") Add
-        p
-          |Developer:
-          input#txtDeveloper(type="text", placeholder="developer", name="txtDeveloper")   
-          input#hdId(type="hidden", name="hdId" value=pro.DEVELOPER)  
-        p
-          input#chkActive(type="checkbox", name="chkActive" value=pro.ISACTIVE)
+        
+        p.dev
+          |Developers:
+          input#edittxtDeveloper(type="text", placeholder="developer", name="txtDeveloper")   
+          input#hdId(type="hidden", name="hdId" value=pro.DEVELOPER)
+          input#hddev(type="hidden", name="hddev" value=pro.DEVELOPER)  
+        //p
+         // input#chkActive(type="checkbox", name="chkActive" value=pro.ISACTIVE)
         p 
-          button#btnSubmit.submit(type="submit") Submit
+          button#ebtnSubmit.submit(type="button") Submit
+
+      script(src="/javascripts/autocomplete/prepopulate.js")  
+      script(src="/javascripts/js/validation.js")      

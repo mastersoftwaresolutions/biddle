@@ -22,12 +22,6 @@ $("#txtUrl").blur(function(){
 	validateurl(el,cl);
 });
 
-$("#txtgitUrl").blur(function(){	  
-         el = $(this);
-	var cl=".giturl-error";
-	validateurl(el,cl);
-});
-
 function validateurl(value,cls) {
     	  if(value.val().length < 0){
 		$(cls).show();
