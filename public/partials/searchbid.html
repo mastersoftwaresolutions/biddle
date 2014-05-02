@@ -1,6 +1,50 @@
-<form class="simple-form" name="searchbid" ng-submit="findbid()">
-       Job Id :<br> <input type="text"  ng-model="jobid" class="form-control" placeholder="Enter Job Id" /><br><br>
-      Job Url :<br> <input type="text"  ng-model="joburl" class="form-control" placeholder="Enter a valid Job Url" /><br><br>
-      {{bidsinfo}}
-<button type="submit" class= "btn btn-primary">Search</button> 
+<form class="simple-form" id="searchbid" name="searchbid" ng-submit="findbid()">
+  <div>
+  <span style="display: none; color:green" class="saved-msg">Data saved Successfully</span>
+      </div><br>
+	<div>
+      <span style="display: none; color:red" class="empty-msg">Please fill any one of the fields.</span>
+      </div>
+      Job Url :<br> <input type="text"  ng-model="joburl" class="form-control" placeholder="Enter a valid Job Url" />
+      <div>
+      <span style="display: none; color:red" class="invalid-msg">Enter a valid url</span>
+      </div><br>
+<button type="submit" class= "btn btn-primary">Search</button> <br><br>
+<span style="display: none;font-size:20px;color:red" class="already-msg">"oops! {{bidsinfo[0].BidderName}} is/has already {{bidsinfo[0].Status}} for this job".</span><br>
+<span style="display: none; font-size:20px; color:green" class="new-msg">"Good News! Nobody has seen this job Yet."
+<a href="" ng-click="abc()">Go For It</a>
+</span><br></form><br><br>
+<form id="check" style="display: none;">
+ <fieldset>
+  <legend>Apply for it:</legend>
+  <div class="checkbox">
+    <label for="is_invite">
+      <input type="checkbox" ng-model="invite"> Is This an Invitation
+    </label>
+  </div><br>
+  <button type="submit" ng-click="save()" class= "btn btn-primary">Apply</button> <br><br>
+ </fieldset>
 </form>
+<form id="checkuser" style="display: none;">
+  <span style="font-size:20px; color:Green" class="user-msg">"You have already applied for this job.What else would you like to do?"
+ <fieldset>
+  <legend></legend>
+  <div style="display:inline;">
+  <button type="submit" id="change-btn" class= "btn btn-primary" value=""ng-click="change()">{{st}}</button>
+    <button type="submit"id="delete-btn" class= "btn btn-primary" ng-click="delete()" >Delete</button>
+      <button type="submit" id="view-btn" class= "btn btn-primary" ng-click="viewbid()" >View</button>
+        <button type="submit" class= "btn btn-primary">Islead</button><br><br>
+      <span style="display: none; color:green" class="status-msg">Status changed</span>
+      <span style="display: none; color:green" class="delete-msg">Data Deleted Successfully</span>
+      </div>
+ </fieldset>
+</form>
+
+  <div id = "bidinfo" ng-show = "info.bids.length == 1 ">
+  Bidder Name: {{bidsinfo[0].BidderName}}<br>
+  JobUrl:  {{bidsinfo[0].JobUrl}}<br>
+  JobPortal:{{bidsinfo[0].JobPortal}}<br>
+  JobId:{{bidsinfo[0].JobId}}<br>
+  Status:{{bidsinfo[0].Status}}<br>
+ <div>
+ 

@@ -37,6 +37,27 @@ exports.reportbid = function(req, res){
   
 };
 
+//check user login credentials
+exports.checklogin = function(req, res){
+    //console.log(req.body.username);
+    var username = req.body.username;
+    var password = req.body.password;
+    //console.log("heredascfascf",username,password);
+connection.query('SELECT * FROM employees WHERE Username = "'+ username +'" AND  Password = "'+ password +'" AND Designation = "Bidding Manager"', function(error , response){
+if (!error){
+    res.json({"userinfo":response});
+    if (response != ''){
+        res.cookie('cookiename', response[0].Username, { maxAge: 60 * 60 * 1000 });
+    }
+    //res.cookie('cookiename', response[0].Username, { maxAge: 900000  });
+}else{
+    console.log("error");
+}
+
+
+  });
+};
+
 //sachin
 exports.bidsave = function(req, res) {
     console.log(req.body);
@@ -45,7 +66,7 @@ exports.bidsave = function(req, res) {
     var JobPortal=req.body.JobPortal;
     var Status=req.body.Status;
     var Isinvite=req.body.Isinvite;
-    var Comments=req.body.Comments; 
+   // var Comments=req.body.Comments; 
 var bids = new Bids(req.body);
 bids.save(function (err, doc) {
         if(err || !doc) {
@@ -57,23 +78,84 @@ bids.save(function (err, doc) {
 
 };
 
+//fetch latest bids
+exports.latestbids = function(req, res) {
+    Bids.find(function(err, bids) {
+    if (!err){
+         res.json({'bids':bids});
+        }else {
+            res.json({'error':'error'});
+        }
+
+});
+}
+
+//Delete a bid
+exports.deletebid = function(req, res) {
+    //console.log("request",req.query.data);
+    var joburl = req.query.data;
+    if (joburl){ 
+        var cat = { JobUrl : joburl };
+    }
+    console.log("addsfsaf",cat);
+    Bids.remove(cat, function(err, bids) {
+    if (!err){
+         res.json({'bids':bids});
+        }else {
+            res.json({'error':'error'});
+        }
+
+});
+
+}
 
 
 
+//Change status for a bid
+exports.changestatus = function(req, res) {
+    var joburl = req.body.Joburl;
+    var stat=req.body.status;
+    //console.log("statstat",stat);
+
+    if (joburl){ 
+        var cat = { JobUrl : joburl };
+    }
+    if (stat == "Applying"){
+        stat = "Applied";
+    }
+    else{
+        stat = "Applying";
+    }
+    Bids.update(cat,{ $set: { Status: stat }},function(err, bids) {
+    if (!err){
+         res.json({'bids':bids});
+        }else {
+            res.json({'error':'error'});
+        }
+
+});
+
+}
+
+
+
+//search bid using jobid
 exports.bidgetsearch = function(req, res) {
-    //console.log(req.body, "ghhug");
-    var jobid = req.body.JobId;
     var joburl = req.body.Joburl;
     //console.log("here",joburl);
+ 
 
-    if (jobid && !joburl){ 
+   /* if (jobid && !joburl){ 
      var cat = { JobId : jobid };
     }else if(joburl && !jobid) {
        var cat = { JobUrl : joburl };
     }else{
       var cat = { JobId : jobid };
-    }
+    }*/
 
+    if (joburl){ 
+    var cat = { JobUrl : joburl };
+}
     Bids.find(cat, function(err, bids) {
     if (!err){
          res.json({'bids':bids});
@@ -94,6 +176,10 @@ exports.searchbid = function(req, res){
   res.render('basic', { title: 'Add New Bid' });
 };
 
+//to render login form
+exports.login = function(req, res){
+  res.render('basic', { title: 'Login' });
+};
 
 // to render addproject view
 exports.addproject = function(req, res){

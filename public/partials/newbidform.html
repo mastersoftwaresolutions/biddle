@@ -3,25 +3,23 @@
       <div>
       <span style="display: none; color:green" class="success-msg">Data saved successfully</span>
       </div>
-      Bidder Name:&nbsp;&nbsp;&nbsp;<select class= "form-control" ng-model="biddername" >
-         <option  ng-repeat="bidders in biddingreport.biddingreport" >{{bidders.FullName}}</option>
-      </select>
+      Bidder Name:&nbsp;&nbsp;&nbsp;<select id="biddername" class="form-control" ng-model="biddername" ng-options="bidders.FullName as bidders.FullName for bidders in biddingreport.biddingreport">    
+        <option value="">Select a bidder name</option>
+    </select>
       <span style="display: none; color:red" class="name-error">Please select a bidder name</span><br><br>
       <div>
-      Job Url :<br> <input type="text" id="joburl" ng-model="url" class="form-control" placeholder="Enter a valid url" />
+      
+      Job Url :<br> <input type="text" id="joburl" ng-model="url" ng-blur="changeName();" class="form-control" placeholder="Enter a valid url" />
       <span style="display: none; color:red" class="url-error">Enter a valid url</span>
       <span style="display: none; color:red" class="urlempty-error">Please enter a url</span>
     </div><br><br>
     <div>
-      Job Portal:&nbsp;&nbsp;&nbsp;<select class= "form-control" ng-model="jobportal">
-        <option value="odesk">odesk</option>
-  	   <option value="elance">elance</option>
-      </select>
+      Job Portal:&nbsp;&nbsp;&nbsp;<input type="text" id="jobportal" value="{{name}}" class="form-control" readonly/>
     </div><br><br>
     <div>
-      Status:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<select  class= "form-control" ng-model="status">
-        <option  value="Working">Working</option>
-  	<option value="Applied">Applied</option>
+      Status:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<select  class= "form-control" ng-model="workstat" ng-options='stat.value as stat.name for stat in status'>
+        <!--option  value="Working">Working</option>
+  	<option value="Applied">Applied</option-->
       </select>
       <span style="display: none; color:red" class="status-error">Please select the status</span>
     </div><br><br>
