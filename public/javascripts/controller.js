@@ -2,7 +2,6 @@
 function bidCtrl($scope,$http){
     $http({method: 'POST', url: '/reportbid'}).
     	success(function(data, status, headers, config) {
-    	//console.log("data",data);
     	$scope.biddingreport=data;
     }).
         error(function(data, status, headers, config) {
@@ -71,29 +70,7 @@ function bidCtrl($scope,$http){
         var url=joburl;
         var rurl= /^(ht|f)tps?:\/\/[a-z0-9-\.]+\.[a-z]{2,4}\/?([^\s<>\#%"\,\{\}\\|\\\^\[\]`]+)?$/;  
         if ((rurl.test(url))){
-            //check for the url
-            var contains = (joburl.indexOf('odesk') > -1); //true
-            if (contains){
-                var JobId = joburl.split('~');
-                var id = JobId[1]
-                var check1 =   (id.indexOf('?') > -1); //true
-                var check2 =    (id.indexOf('/') > -1); //true
-                if (check1){
-                    var Id = id.split('?');
-                    var JobId = Id[0];
-                }
-                if (check2){
-                    var Id = id.split('/');
-                    var JobId = Id[0];
-                }
-    
-            }
-            else if (!contains) {
-                var r = /\d+/;
-                var s = joburl;
-                var JobId = s.match(r);
-                JobId = JobId;
-            }
+            var JobId =  getid(url);  
             var newbids={
                 BidderName: biddername,
                 JobUrl: joburl,
@@ -122,8 +99,8 @@ function bidCtrl($scope,$http){
                 });
             }).
             error(function(data, status, headers, config) {
-            // called asynchronously if an error occurs
-            // or server returns response with an error status.
+                // called asynchronously if an error occurs
+                // or server returns response with an error status.
             });       
         }
     else{
@@ -154,48 +131,22 @@ function bidCtrl($scope,$http){
 };
 
 
-// Controller for creating a new bid
+// Controller for  bids 
 function Searchbid($scope,$http,$cookies) {
     $scope.user= $.cookie("cookiename");
     $http({method: 'GET', url: '/latestbids'}).
     success(function(data, status, headers, config) {
     $scope.allbids = data;
-    //console.log("datatsfdfsd",$scope.bidsinfo);
     });
-    //console.log($scope.bidsinfo[0].Status,"adqdasf");
+    // Clicking on Search button calls this function to search bids
     $scope.findbid= function() {
         $("#checkuser").hide();
         var joburl=$scope.joburl
         var url=joburl;
         var rurl= /^(ht|f)tps?:\/\/[a-z0-9-\.]+\.[a-z]{2,4}\/?([^\s<>\#%"\,\{\}\\|\\\^\[\]`]+)?$/;  
         if ((rurl.test(url))){
-        //check for id
-        var contains = (joburl.indexOf('odesk') > -1); //true
-        if (contains){
-            var JobId = joburl.split('~');
-            var id = JobId[1]
-            var check1 =   (id.indexOf('?') > -1); //true
-            var check2 =    (id.indexOf('/') > -1); //true
-            if (check1){
-                var Id = id.split('?');
-                var JobId = Id[0];
-            }
-            if (check2){
-                var Id = id.split('/');
-                var JobId = Id[0];
-            }
-            else {
-                var JobId = JobId[1];
-            }
-        }
-        else if (!contains) {
-            var r = /\d+/;
-            var s = joburl;
-            var JobId = s.match(r);
-            JobId = JobId;
-        }
-        //ends here
-        
+          var JobId =  getid(url);          
+        if (JobId){
             var bids={
                 Joburl: joburl,
                 JobId: JobId,
@@ -207,61 +158,81 @@ function Searchbid($scope,$http,$cookies) {
             return false; 
         }
     
-
-    $http({method: 'POST', url: '/bidgetsearch',data:bids}).
-        success(function(data, status, headers, config) {
-            $scope.bidsinfo = data.bids;
-            //console.log($scope.bidsinfo[0].Status,"adqdasf");
-            if ($scope.bidsinfo != ''){
-                //console.log("here",$scope.bidsinfo[0].BidderName);
-                $scope.st = $scope.bidsinfo[0].Status
-                //console.log($scope.st);
-                if ($scope.st == "Applied"){
-                    $scope.st = "Applying"
+        //to get bids data using job url and job id
+        $http({method: 'POST', url: '/bidgetsearch',data:bids}).
+            success(function(data, status, headers, config) {
+                $scope.bidsinfo = data.bids;
+                if ($scope.bidsinfo != ''){
+                    $scope.st = $scope.bidsinfo[0].Status
+                    if ($scope.st == "Applied"){
+                        $scope.st = "Applying"
+                    }
+                    else{
+                        $scope.st = "Applied"
+                    }
+                    var username = $cookies.cookiename
+                    if ($scope.bidsinfo[0].BidderName == username){
+                        $("#checkuser").show();
+                    }
+                    else{
+                        $(".already-msg").show();
+                        $('.already-msg').delay(4000).fadeOut();
+                    }
                 }
                 else{
-                    $scope.st = "Applied"
+                    $(".new-msg").show();
+                    $(".go-btn").show();
                 }
-                var username = $cookies.cookiename
-                if ($scope.bidsinfo[0].BidderName == username){
-                    $("#checkuser").show();
-                }
-                else{
-                    $(".already-msg").show();
-                    $('.already-msg').delay(4000).fadeOut();
-                }
-            }
-            else{
-                $(".new-msg").show();
-                $(".go-btn").show();
-            }
-        //$scope.biddata=data;
-        }).
-        error(function(data, status, headers, config) {
-        // called asynchronously if an error occurs
-        // or server returns response with an error status.
-        });       
-    };
-    $scope.abc= function() {
+            }).
+            error(function(data, status, headers, config) {
+            // called asynchronously if an error occurs
+            // or server returns response with an error status.
+            });       
+        };
+    }
+    // to show the section for applying for the job
+    $scope.go= function() {
         $("#check").show();
         $(".new-msg").hide();
     }
 
-    //view bidinfo
+    //view bids information
     $scope.viewbid= function(even) {
-        //$('#bidinfo').empty();
         if(typeof even == 'undefined') {
            var view = "form";
         }else{
           var view = "latest";
         }
         var joburl=$scope.joburl || $("."+ even.target.id).text();
-        
+        var JobId =  getid(joburl); 
+        var data = $scope.joburl
+        if (!data){
+            var a = $("#"+ even.target.id).next().next().next().after($('#info').show());
+
+        }
+
+        var bids={
+            JobId: JobId,
+        };
+        $http({method: 'POST', url: '/bidgetsearch',data:bids}).
+        success(function(data, status, headers, config) {
+            console.log(data.bids.length,"asdsads");
+            $scope.info=data;
+            if (data.bids.length == 1){
+                if(view == 'form'){
+                    $('#bidinfo').show();
+                }else{
+                    $('#info').show();
+                }
+            }
+        });
+    }   
 
 
-
-//check for jobid
-
+    //save values to database using the search form
+    $scope.save= function() {
+        var joburl = $scope.joburl;
+        //var JobId =  getid(joburl); 
         var contains = (joburl.indexOf('odesk') > -1); //true
         if (contains){
             var JobId = joburl.split('~');
@@ -279,78 +250,26 @@ function Searchbid($scope,$http,$cookies) {
             else {
                 var JobId = JobId[1];
             }
+            JobPortal="odesk";
         }
         else if (!contains) {
             var r = /\d+/;
             var s = joburl;
             var JobId = s.match(r);
             JobId = JobId;
+            JobPortal="elance"
         }
-
-//ends here
-
-        var JobId = JobId
-
-        var bids={
-            JobId: JobId,
-        };
-        $http({method: 'POST', url: '/bidgetsearch',data:bids}).
-        success(function(data, status, headers, config) {
-        console.log(data.bids.length,"asdsads");
-        //$("#bidinfo").html(' ');
-        $scope.info=data;
-        if (data.bids.length == 1){
-          if(view == 'form'){
-         $('#bidinfo').show();
-        }else{
-            $('#info').show();
+        status="Applying"
+        var parser = document.createElement('a');
+        parser.href = joburl;
+        isinvite=$scope.invite;
+        if (!isinvite){
+            isinvite = 'no';
         }
-     }
-    });
-    }   
-
-
-//save values to database using the search form
-$scope.save= function() {
-    var joburl = $scope.joburl;
-    
-    var contains = (joburl.indexOf('odesk') > -1); //true
-    if (contains){
-        var JobId = joburl.split('~');
-        var id = JobId[1]
-        var check1 =   (id.indexOf('?') > -1); //true
-        var check2 =    (id.indexOf('/') > -1); //true
-        if (check1){
-            var Id = id.split('?');
-            var JobId = Id[0];
+        else{
+            isinvite='yes'
         }
-        if (check2){
-            var Id = id.split('/');
-            var JobId = Id[0];
-        }
-        else {
-            var JobId = JobId[1];
-        }
-        JobPortal="odesk";
-    }
-    else if (!contains) {
-        var r = /\d+/;
-        var s = joburl;
-        var JobId = s.match(r);
-        JobId = JobId;
-        JobPortal="elance"
-}
-status="Applying"
-var parser = document.createElement('a');
-parser.href = joburl;
-isinvite=$scope.invite;
-if (!isinvite){
-    isinvite = 'no';
-}
-else{
-    isinvite='yes'
-    }
-var newbids={
+        var newbids={
             BidderName:$cookies.cookiename,
             JobUrl: joburl,
             protocol:parser.protocol,
@@ -369,35 +288,154 @@ var newbids={
         console.log(newbids);
         $http({method: 'POST', url: '/bidsave',data:newbids}).
         success(function(data, status, headers, config) {
-        console.log(data);
-        $scope.biddata=data;
-        $(".saved-msg").show();
-        $('.saved-msg').delay(3000).fadeOut();
-        $(".new-msg").hide();
-        $("#check").hide();
-        $('#searchbid').each(function(){
-            this.reset();   //Here form fields will be cleared.
-        });
+            $scope.biddata=data;
+            $(".saved-msg").show();
+            $('.saved-msg').delay(3000).fadeOut();
+            $(".new-msg").hide();
+            $("#check").hide();
+            $('#searchbid').each(function(){
+                this.reset();   //Here form fields will be cleared.
+            });
 
+        }).
+        error(function(data, status, headers, config) {
+        // called asynchronously if an error occurs
+        // or server returns response with an error status.
+        });        
+
+
+    }
+
+
+    //change status for a particular job
+    $scope.change= function(even) {
+    var joburl = $scope.joburl || $("."+ even.target.id).text();
+    var JobId =  getid(joburl);
+    var data = $scope.joburl
+    if (!data){
+        var a = $("#"+ even.target.id).next().next().next().after("<span style='color:green'  class='stat-msg' >Status changed</span><br>");
+        $('.stat-msg').delay(2000).fadeOut();
+        $('#info').hide();
+    }
+    var bids={
+            JobId: JobId,
+
+            };
+    $http({method: 'POST', url: '/bidgetsearch',data:bids}).
+        success(function(data, status, headers, config) {
+            var stat = data.bids[0].Status;
+            var bids={
+                Joburl: joburl,
+                status: stat
+            };
+            $http({method: 'POST', url: '/changestatus',data:bids}).
+                success(function(data, status, headers, config) {
+                    console.log(data);
+                    $(".status-msg").show();
+                    $('.status-msg').delay(2000).fadeOut();
+                    $('#bidinfo').hide();
+
+                }).
+                error(function(data, status, headers, config) {
+                // called asynchronously if an error occurs
+                // or server returns response with an error status.
+                });      
+
+        }).
+        error(function(data, status, headers, config) {
+            // called asynchronously if an error occurs
+            // or server returns response with an error status.
+        });        
+
+    }
+
+
+
+    // delete a bid from database
+    $scope.delete= function(even) {
+    var cont = confirm('Are you sure ?');
+    if (cont){
+        var joburl=$scope.joburl || $("."+ even.target.id).text();
+
+        var data = $scope.joburl
+        if (!data){
+            var a = $("#"+ even.target.id).next().next().next().after("<span style='color:green'  class='remove-msg' >Data Deleated</span><br>");
+            $("#"+ even.target.id).parent().remove();
+            $('.remove-msg').delay(2000).fadeOut();
+            $('#info').hide();
+        }
+        var bids={
+            Joburl: joburl,
+
+            };
+        console.log(bids);
+        $http({method: 'POST', url: '/bidgetsearch',data:bids}).
+        success(function(data, status, headers, config) {
+            var stat = data.bids[0].Status;
+
+            $http({method: 'GET', url: '/deletebid?data='+joburl }).
+            success(function(data, status, headers, config) {
+                console.log(data);
+                $(".delete-msg").show();
+                $('.delete-msg').delay(2000).fadeOut();
+                $("#bidinfo").hide();
+            }).
+            error(function(data, status, headers, config) {
+                // called asynchronously if an error occurs
+                // or server returns response with an error status.
+            });      
+
+        }).
+        error(function(data, status, headers, config) {
+            // called asynchronously if an error occurs
+            // or server returns response with an error status.
+        });        
+
+    }
+}
+};
+
+
+// check login details 
+function loginCtrl($scope,$http,$location,$cookies){
+  $scope.userlogin = function() {
+    var username = $scope.username;
+    var password = $scope.password;
+    var user={
+            username: username,
+            password: password,
+            };
+
+
+    $http({method: 'POST', url: '/checklogin',data:user}).
+    success(function(data, status, headers, config) {
+        console.log(data.userinfo.length);
+
+        if (data.userinfo.length != 0){
+            $location.path('/searchbid');  
+        }
+        else{
+            $(".error-msg").show();
+            $('.error-msg').delay(2000).fadeOut();
+        }
     }).
     error(function(data, status, headers, config) {
-    // called asynchronously if an error occurs
-    // or server returns response with an error status.
-    });        
+        // called asynchronously if an error occurs
+        // or server returns response with an error status.
+    });
 
 
-}
-// click on change button calls this function
-$scope.change= function(even) {
-//console.log("axasxs",even.target.id);
-var a = $('#'+even.target.id).attr("data-stat")
-alert (a);
-var joburl = $scope.joburl || $("."+ even.target.id).text();
-//check for jobid
+  };
+};
 
-        var contains = (joburl.indexOf('odesk') > -1); //true
-        if (contains){
-            var JobId = joburl.split('~');
+// function to Get JobId from JobUrl 
+function getid(value) {
+var tilt = value.split('~');
+var splitslash = tilt[0].split('/');
+var test = (splitslash[2])
+
+if(test == "www.odesk.com"){
+    var JobId = value.split('~');
             var id = JobId[1]
             var check1 =   (id.indexOf('?') > -1); //true
             var check2 =    (id.indexOf('/') > -1); //true
@@ -412,133 +450,19 @@ var joburl = $scope.joburl || $("."+ even.target.id).text();
             else {
                 var JobId = JobId[1];
             }
-        }
-        else if (!contains) {
-            var r = /\d+/;
-            var s = joburl;
-            var JobId = s.match(r);
+
+}
+else if (test == "www.elance.com"){
+        var regex = /\/\d+\//;
+            var url = value;
+            var exist = url.match(regex);
+            var strid = String(exist);
+            var JobId = strid.replace(/\//g,'');
             JobId = JobId;
-        }
+}
 
+return JobId;
+}
 //ends here
+   
 
-
-
-
-
-var bids={
-            JobId: JobId,
-
-           // JobId: jobid,
-            };
- $http({method: 'POST', url: '/bidgetsearch',data:bids}).
-        success(function(data, status, headers, config) {
-        var stat = data.bids[0].Status;
-        var bids={
-            Joburl: joburl,
-            status: stat
-           // JobId: jobid,
-            };
-        $http({method: 'POST', url: '/changestatus',data:bids}).
-            success(function(data, status, headers, config) {
-            console.log(data);
-            $(".status-msg").show();
-            $('.status-msg').delay(2000).fadeOut();
-            $('#bidinfo').hide();
-
-            //$scope.biddata=data;
-
-        }).
-        error(function(data, status, headers, config) {
-        // called asynchronously if an error occurs
-        // or server returns response with an error status.
-        });      
-
-    }).
-    error(function(data, status, headers, config) {
-    // called asynchronously if an error occurs
-    // or server returns response with an error status.
-    });        
-
-  
-
-
-}
-// delete a bid from database
-$scope.delete= function(even) {
-var cont = confirm('Are you sure ?');
-if (cont){
-var joburl=$scope.joburl || $("."+ even.target.id).text();
-
-var bids={
-            Joburl: joburl,
-
-           // JobId: jobid,
-            };
-console.log(bids);
-$http({method: 'POST', url: '/bidgetsearch',data:bids}).
-        success(function(data, status, headers, config) {
-        var stat = data.bids[0].Status;
-   //     var bids={
-     //       Joburl: joburl,
-        //    };
-        $http({method: 'GET', url: '/deletebid?data='+joburl }).
-            success(function(data, status, headers, config) {
-            console.log(data);
-
-            $(".delete-msg").show();
-            $('.delete-msg').delay(2000).fadeOut();
-            $("#bidinfo").hide();
-            //$("#change-btn").hide();
-            //$scope.biddata=data;
-
-        }).
-        error(function(data, status, headers, config) {
-        // called asynchronously if an error occurs
-        // or server returns response with an error status.
-        });      
-
-    }).
-    error(function(data, status, headers, config) {
-    // called asynchronously if an error occurs
-    // or server returns response with an error status.
-    });        
-
- }
-}
-};
-
-
-// check login details 
-function loginCtrl($scope,$http,$location,$cookies){
-  $scope.userlogin = function() {
-    var username = $scope.username;
-    var password = $scope.password;
- var user={
-            username: username,
-            password: password,
-            };
-
-
-$http({method: 'POST', url: '/checklogin',data:user}).
-success(function(data, status, headers, config) {
-//console.log(data.user);
-// $scope.userinfo = data;
-console.log(data.userinfo.length);
-
-if (data.userinfo.length != 0){
-$location.path('/searchbid');  
-}
-else{
-    $(".error-msg").show();
-    $('.error-msg').delay(2000).fadeOut();
-}
-}).
-error(function(data, status, headers, config) {
-// called asynchronously if an error occurs
-// or server returns response with an error status.
- });
-
-
-};
-};

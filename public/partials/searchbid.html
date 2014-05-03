@@ -1,7 +1,6 @@
 <div style="border-right: 1px solid #ddd; display: inline-block; min-height: 500px; padding-right: 30px;  width: 60%;" class="fld-frm-cntnr">
 <form class="simple-form" id="searchbid" name="searchbid" ng-submit="findbid()">
   <div>
-    
   <span style="display: none; color:green" class="saved-msg">Data saved Successfully</span>
       </div><br>
 	<div>
@@ -14,7 +13,7 @@
 <button type="submit" class= "btn btn-primary">Search</button> <br><br>
 <span style="display: none;font-size:20px;color:red" class="already-msg">"oops! {{bidsinfo[0].BidderName}} is/has already {{bidsinfo[0].Status}} for this job".</span><br>
 <span style="display: none; font-size:20px; color:green" class="new-msg">"Good News! Nobody has seen this job Yet."
-<a href="" ng-click="abc()">Go For It</a>
+<a href="" ng-click="go()">Go For It</a>
 </span><br>
 </form>
 <form id="check" style="display: none;">
@@ -52,24 +51,23 @@
 </div>
 <div style="float:right; width:35%;" class="ryt-url">
  <span style="font-size:20px; color:green" class="msg">Latest Bids</span><br><br>
- <span ng-show = "allbids.bids != ''" ng-repeat="bid in allbids.bids" >
+ <span class = "bid-list" ng-show = "allbids.bids != ''" ng-repeat="bid in allbids.bids" >
    <span style="font-size:16px; color:black">JobUrl:</span>
    <span class = "url_{{$index}}"  style="font-size:16px; color:green">{{bid.JobUrl}}</span><br>
    <a ng-click="change($event)" id = "url_{{$index}}" href="javascript:void(0);">Change Job Status </a>&nbsp;&nbsp;
    <a ng-click="delete($event)" id = "url_{{$index}}" href="javascript:void(0);" >Delete Job</a>&nbsp;&nbsp;
    <a ng-click="viewbid($event)" id = "url_{{$index}}" href="javascript:void(0);">View Job</a><br>
-   <span style="display: none; color:green" id = "url_{{$index}}" class="stat-msg" data-stat="status">Status changed</span>
-   <span style="display: none; color:green"  id = "url_{{$index}}" class="dlt-msg">Data Deleted</span><br><br>
-   <span id = "info" ng-if = "info.bids.length == 1 " style="display:none;">
+<br>
+   </span>
+</div>
+<br><br><br><br>
+<span id = "info" ng-if = "info.bids.length == 1 " style="display:none;">
   Bidder Name: {{info.bids[0].BidderName}}<br>
   JobUrl:  {{info.bids[0].JobUrl}}<br>
   JobPortal:{{info.bids[0].JobPortal}}<br>
   JobId:{{info.bids[0].JobId}}<br>
   Status:{{info.bids[0].Status}}<br>
  </span>
-</span>
-</div>
-<br><br>
 
 
   

@@ -43,22 +43,22 @@ exports.checklogin = function(req, res){
     var username = req.body.username;
     var password = req.body.password;
     //console.log("heredascfascf",username,password);
-connection.query('SELECT * FROM employees WHERE Username = "'+ username +'" AND  Password = "'+ password +'" AND Designation = "Bidding Manager"', function(error , response){
-if (!error){
-    res.json({"userinfo":response});
-    if (response != ''){
-        res.cookie('cookiename', response[0].Username, { maxAge: 1 * 24 * 60 * 60 * 1000 });
-    }
-    //res.cookie('cookiename', response[0].Username, { maxAge: 900000  });
-}else{
-    console.log("error");
-}
+    connection.query('SELECT * FROM employees WHERE Username = "'+ username +'" AND  Password = "'+ password +'" AND Designation = "Bidding Manager"', function(error , response){
+        if (!error){
+            res.json({"userinfo":response});
+        if (response != ''){
+            res.cookie('cookiename', response[0].Username, { maxAge: 1 * 24 * 60 * 60 * 1000 });
+        }
+        //res.cookie('cookiename', response[0].Username, { maxAge: 900000  });
+        }else{
+            console.log("error");
+        }
 
 
-  });
+    });
 };
 
-//sachin
+//Save bids information to database
 exports.bidsave = function(req, res) {
     console.log(req.body);
     var BidderName=req.body.BidderName;
@@ -67,14 +67,14 @@ exports.bidsave = function(req, res) {
     var Status=req.body.Status;
     var Isinvite=req.body.Isinvite;
    // var Comments=req.body.Comments; 
-var bids = new Bids(req.body);
-bids.save(function (err, doc) {
+    var bids = new Bids(req.body);
+    bids.save(function (err, doc) {
         if(err || !doc) {
            res.json({err : "error"});
         } else {
           res.json({success : "saved successfully"});
         }
-      });
+    });
 
 };
 
@@ -140,7 +140,7 @@ exports.changestatus = function(req, res) {
             res.json({'error':'error'});
         }
 
-});
+    });
 
 }
 
