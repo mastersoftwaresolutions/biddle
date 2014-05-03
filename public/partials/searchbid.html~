@@ -1,6 +1,0 @@
-<form class="simple-form" name="searchbid">
-       Job Id :<br> <input type="text"  class="form-control" placeholder="Enter Job Id" /><br><br>
-      Job Url :<br> <input type="text"  class="form-control" placeholder="Enter a valid Job Url" /><br><br>
-      
-<button type="submit" class= "btn btn-primary">Search</button> 
-</form>

@@ -156,22 +156,56 @@ function bidCtrl($scope,$http){
 
 // Controller for creating a new bid
 function Searchbid($scope,$http,$cookies) {
+    $scope.user= $.cookie("cookiename");
+    $http({method: 'GET', url: '/latestbids'}).
+    success(function(data, status, headers, config) {
+    $scope.allbids = data;
+    //console.log("datatsfdfsd",$scope.bidsinfo);
+    });
+    //console.log($scope.bidsinfo[0].Status,"adqdasf");
     $scope.findbid= function() {
         $("#checkuser").hide();
         var joburl=$scope.joburl
         var url=joburl;
         var rurl= /^(ht|f)tps?:\/\/[a-z0-9-\.]+\.[a-z]{2,4}\/?([^\s<>\#%"\,\{\}\\|\\\^\[\]`]+)?$/;  
         if ((rurl.test(url))){
+        //check for id
+        var contains = (joburl.indexOf('odesk') > -1); //true
+        if (contains){
+            var JobId = joburl.split('~');
+            var id = JobId[1]
+            var check1 =   (id.indexOf('?') > -1); //true
+            var check2 =    (id.indexOf('/') > -1); //true
+            if (check1){
+                var Id = id.split('?');
+                var JobId = Id[0];
+            }
+            if (check2){
+                var Id = id.split('/');
+                var JobId = Id[0];
+            }
+            else {
+                var JobId = JobId[1];
+            }
+        }
+        else if (!contains) {
+            var r = /\d+/;
+            var s = joburl;
+            var JobId = s.match(r);
+            JobId = JobId;
+        }
+        //ends here
+        
             var bids={
                 Joburl: joburl,
-            // JobId: jobid,
+                JobId: JobId,
             };
         }
-    else{
-        $(".invalid-msg").show();
-        $('.invalid-msg').delay(4000).fadeOut();
-        return false; 
-    }
+        else{
+            $(".invalid-msg").show();
+            $('.invalid-msg').delay(4000).fadeOut();
+            return false; 
+        }
     
 
     $http({method: 'POST', url: '/bidgetsearch',data:bids}).
@@ -214,20 +248,63 @@ function Searchbid($scope,$http,$cookies) {
     }
 
     //view bidinfo
-    $scope.viewbid= function() {
+    $scope.viewbid= function(even) {
         //$('#bidinfo').empty();
-        var joburl=$scope.joburl
+        if(typeof even == 'undefined') {
+           var view = "form";
+        }else{
+          var view = "latest";
+        }
+        var joburl=$scope.joburl || $("."+ even.target.id).text();
+        
+
+
+
+//check for jobid
+
+        var contains = (joburl.indexOf('odesk') > -1); //true
+        if (contains){
+            var JobId = joburl.split('~');
+            var id = JobId[1]
+            var check1 =   (id.indexOf('?') > -1); //true
+            var check2 =    (id.indexOf('/') > -1); //true
+            if (check1){
+                var Id = id.split('?');
+                var JobId = Id[0];
+            }
+            if (check2){
+                var Id = id.split('/');
+                var JobId = Id[0];
+            }
+            else {
+                var JobId = JobId[1];
+            }
+        }
+        else if (!contains) {
+            var r = /\d+/;
+            var s = joburl;
+            var JobId = s.match(r);
+            JobId = JobId;
+        }
+
+//ends here
+
+        var JobId = JobId
+
         var bids={
-            Joburl: joburl,
+            JobId: JobId,
         };
         $http({method: 'POST', url: '/bidgetsearch',data:bids}).
         success(function(data, status, headers, config) {
-        console.log(data,"asdsads");
+        console.log(data.bids.length,"asdsads");
         //$("#bidinfo").html(' ');
         $scope.info=data;
-        //alert(data.bids.length);
         if (data.bids.length == 1){
+          if(view == 'form'){
          $('#bidinfo').show();
+        }else{
+            $('#info').show();
+        }
      }
     });
     }   
@@ -311,10 +388,46 @@ var newbids={
 
 }
 // click on change button calls this function
-$scope.change= function() {
-var joburl=$scope.joburl
+$scope.change= function(even) {
+//console.log("axasxs",even.target.id);
+var a = $('#'+even.target.id).attr("data-stat")
+alert (a);
+var joburl = $scope.joburl || $("."+ even.target.id).text();
+//check for jobid
+
+        var contains = (joburl.indexOf('odesk') > -1); //true
+        if (contains){
+            var JobId = joburl.split('~');
+            var id = JobId[1]
+            var check1 =   (id.indexOf('?') > -1); //true
+            var check2 =    (id.indexOf('/') > -1); //true
+            if (check1){
+                var Id = id.split('?');
+                var JobId = Id[0];
+            }
+            if (check2){
+                var Id = id.split('/');
+                var JobId = Id[0];
+            }
+            else {
+                var JobId = JobId[1];
+            }
+        }
+        else if (!contains) {
+            var r = /\d+/;
+            var s = joburl;
+            var JobId = s.match(r);
+            JobId = JobId;
+        }
+
+//ends here
+
+
+
+
+
 var bids={
-            Joburl: joburl,
+            JobId: JobId,
 
            // JobId: jobid,
             };
@@ -332,6 +445,7 @@ var bids={
             $(".status-msg").show();
             $('.status-msg').delay(2000).fadeOut();
             $('#bidinfo').hide();
+
             //$scope.biddata=data;
 
         }).
@@ -351,10 +465,10 @@ var bids={
 
 }
 // delete a bid from database
-$scope.delete= function() {
+$scope.delete= function(even) {
 var cont = confirm('Are you sure ?');
 if (cont){
-var joburl=$scope.joburl
+var joburl=$scope.joburl || $("."+ even.target.id).text();
 
 var bids={
             Joburl: joburl,

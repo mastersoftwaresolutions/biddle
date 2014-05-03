@@ -1,5 +1,0 @@
-// controllers for biddle app
-function bidCtrl($scope){
-
-	
-}

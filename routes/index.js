@@ -47,7 +47,7 @@ connection.query('SELECT * FROM employees WHERE Username = "'+ username +'" AND 
 if (!error){
     res.json({"userinfo":response});
     if (response != ''){
-        res.cookie('cookiename', response[0].Username, { maxAge: 60 * 60 * 1000 });
+        res.cookie('cookiename', response[0].Username, { maxAge: 1 * 24 * 60 * 60 * 1000 });
     }
     //res.cookie('cookiename', response[0].Username, { maxAge: 900000  });
 }else{
@@ -80,7 +80,14 @@ bids.save(function (err, doc) {
 
 //fetch latest bids
 exports.latestbids = function(req, res) {
-    Bids.find(function(err, bids) {
+    //console.log("requestscdjdv",req.cookies.cookiename);
+    var BidderName = req.cookies.cookiename;
+    if (BidderName){ 
+        var cat = { BidderName : BidderName };
+    }
+    console.log("addsfsaf",cat);
+    //var Biddername = req.query.data
+    Bids.find(cat,function(err, bids) {
     if (!err){
          res.json({'bids':bids});
         }else {
@@ -142,7 +149,8 @@ exports.changestatus = function(req, res) {
 //search bid using jobid
 exports.bidgetsearch = function(req, res) {
     var joburl = req.body.Joburl;
-    //console.log("here",joburl);
+    var JobId = req.body.JobId;
+    console.log("here",JobId,joburl);
  
 
    /* if (jobid && !joburl){ 
@@ -153,8 +161,8 @@ exports.bidgetsearch = function(req, res) {
       var cat = { JobId : jobid };
     }*/
 
-    if (joburl){ 
-    var cat = { JobUrl : joburl };
+    if (JobId){ 
+    var cat = { JobId : JobId };
 }
     Bids.find(cat, function(err, bids) {
     if (!err){
@@ -407,7 +415,10 @@ exports.projectlist = function(db) {
 // to delete project from list page
 exports.deleteproject=function(db)
 {
+
     return function(req,res){
+//res.writeHead(200, {"Content-Type": "text/html"});
+   //res.write("<script type='text/javascript'>var cont = confirm('Are you sure ?');</script>");
     var id=req.query.key; // get querystring
     var collection=db.get('newproject');
     collection.remove({'_id':id
