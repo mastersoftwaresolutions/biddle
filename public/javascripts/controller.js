@@ -133,8 +133,11 @@ function bidCtrl($scope,$http){
 
 // Controller for  bids 
 function Searchbid($scope,$http,$cookies) {
-    $scope.user= $.cookie("cookiename");
-    $http({method: 'GET', url: '/latestbids'}).
+    var user= $.cookie("cookiename");
+    var cookie={
+            cookiename : user
+            };
+    $http({method: 'POST', url: '/latestbids',data:cookie}).
     success(function(data, status, headers, config) {
     $scope.allbids = data;
     });
@@ -203,8 +206,13 @@ function Searchbid($scope,$http,$cookies) {
         }else{
           var view = "latest";
         }
-        var joburl=$scope.joburl || $("."+ even.target.id).text();
-        var JobId =  getid(joburl); 
+        var joburl = $scope.joburl;
+        if (joburl){
+            var JobId =  getid(joburl);
+        }
+        else{
+            var JobId = $("."+ even.target.id).text();
+        }
         var data = $scope.joburl
         if (!data){
             var a = $("#"+ even.target.id).next().next().next().after($('#info').show());
@@ -309,8 +317,13 @@ function Searchbid($scope,$http,$cookies) {
 
     //change status for a particular job
     $scope.change= function(even) {
-    var joburl = $scope.joburl || $("."+ even.target.id).text();
+    var joburl = $scope.joburl;
+    if (joburl){
     var JobId =  getid(joburl);
+    }
+    else{
+        var JobId = $("."+ even.target.id).text();
+    }
     var data = $scope.joburl
     if (!data){
         var a = $("#"+ even.target.id).next().next().next().after("<span style='color:green'  class='stat-msg' >Status changed</span><br>");
@@ -325,7 +338,7 @@ function Searchbid($scope,$http,$cookies) {
         success(function(data, status, headers, config) {
             var stat = data.bids[0].Status;
             var bids={
-                Joburl: joburl,
+                JobId: JobId,
                 status: stat
             };
             $http({method: 'POST', url: '/changestatus',data:bids}).
@@ -355,8 +368,13 @@ function Searchbid($scope,$http,$cookies) {
     $scope.delete= function(even) {
     var cont = confirm('Are you sure ?');
     if (cont){
-        var joburl=$scope.joburl || $("."+ even.target.id).text();
-
+        var joburl = $scope.joburl;
+        if (joburl){
+            var JobId =  getid(joburl);
+        }
+        else{
+            var JobId = $("."+ even.target.id).text();
+        }
         var data = $scope.joburl
         if (!data){
             var a = $("#"+ even.target.id).next().next().next().after("<span style='color:green'  class='remove-msg' >Data Deleated</span><br>");
@@ -365,7 +383,7 @@ function Searchbid($scope,$http,$cookies) {
             $('#info').hide();
         }
         var bids={
-            Joburl: joburl,
+            JobId: JobId,
 
             };
         console.log(bids);
@@ -373,7 +391,7 @@ function Searchbid($scope,$http,$cookies) {
         success(function(data, status, headers, config) {
             var stat = data.bids[0].Status;
 
-            $http({method: 'GET', url: '/deletebid?data='+joburl }).
+            $http({method: 'GET', url: '/deletebid?data='+JobId }).
             success(function(data, status, headers, config) {
                 console.log(data);
                 $(".delete-msg").show();
@@ -397,7 +415,7 @@ function Searchbid($scope,$http,$cookies) {
 
 
 // check login details 
-function loginCtrl($scope,$http,$location,$cookies){
+function loginCtrl($scope,$http,$rootScope,$location,$cookies){
   $scope.userlogin = function() {
     var username = $scope.username;
     var password = $scope.password;
@@ -409,10 +427,13 @@ function loginCtrl($scope,$http,$location,$cookies){
 
     $http({method: 'POST', url: '/checklogin',data:user}).
     success(function(data, status, headers, config) {
-        console.log(data.userinfo.length);
+        //console.log(data.name[0].Username,"dataf");
 
-        if (data.userinfo.length != 0){
-            $location.path('/searchbid');  
+        if (data){
+            $rootScope.user = "done" ;
+            $.cookie("cookiename", data.name[0].Username,{ expires: 1 });
+            $location.url('/searchbid');  
+              
         }
         else{
             $(".error-msg").show();
@@ -426,6 +447,12 @@ function loginCtrl($scope,$http,$location,$cookies){
 
 
   };
+
+//logout
+$scope.logout = function() {
+var cookies = $.cookie();
+$.cookie("cookiename", null);
+}
 };
 
 // function to Get JobId from JobUrl 

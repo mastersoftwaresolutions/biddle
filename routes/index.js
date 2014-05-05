@@ -37,26 +37,7 @@ exports.reportbid = function(req, res){
   
 };
 
-//check user login credentials
-exports.checklogin = function(req, res){
-    //console.log(req.body.username);
-    var username = req.body.username;
-    var password = req.body.password;
-    //console.log("heredascfascf",username,password);
-    connection.query('SELECT * FROM employees WHERE Username = "'+ username +'" AND  Password = "'+ password +'" AND Designation = "Bidding Manager"', function(error , response){
-        if (!error){
-            res.json({"userinfo":response});
-        if (response != ''){
-            res.cookie('cookiename', response[0].Username, { maxAge: 1 * 24 * 60 * 60 * 1000 });
-        }
-        //res.cookie('cookiename', response[0].Username, { maxAge: 900000  });
-        }else{
-            console.log("error");
-        }
 
-
-    });
-};
 
 //Save bids information to database
 exports.bidsave = function(req, res) {
@@ -80,8 +61,8 @@ exports.bidsave = function(req, res) {
 
 //fetch latest bids
 exports.latestbids = function(req, res) {
-    //console.log("requestscdjdv",req.cookies.cookiename);
-    var BidderName = req.cookies.cookiename;
+    //console.log("requestscdjdv",req.body.cookiename);
+    var BidderName = req.body.cookiename;
     if (BidderName){ 
         var cat = { BidderName : BidderName };
     }
@@ -100,9 +81,9 @@ exports.latestbids = function(req, res) {
 //Delete a bid
 exports.deletebid = function(req, res) {
     //console.log("request",req.query.data);
-    var joburl = req.query.data;
-    if (joburl){ 
-        var cat = { JobUrl : joburl };
+    var JobId = req.query.data;
+    if (JobId){ 
+        var cat = { JobId : JobId };
     }
     console.log("addsfsaf",cat);
     Bids.remove(cat, function(err, bids) {
@@ -120,12 +101,12 @@ exports.deletebid = function(req, res) {
 
 //Change status for a bid
 exports.changestatus = function(req, res) {
-    var joburl = req.body.Joburl;
+    var jobid = req.body.JobId;
     var stat=req.body.status;
     //console.log("statstat",stat);
 
-    if (joburl){ 
-        var cat = { JobUrl : joburl };
+    if (jobid){ 
+        var cat = { JobId : jobid };
     }
     if (stat == "Applying"){
         stat = "Applied";
@@ -148,9 +129,9 @@ exports.changestatus = function(req, res) {
 
 //search bid using jobid
 exports.bidgetsearch = function(req, res) {
-    var joburl = req.body.Joburl;
+    //var joburl = req.body.Joburl;
     var JobId = req.body.JobId;
-    console.log("here",JobId,joburl);
+    console.log("hithere",JobId);
  
 
    /* if (jobid && !joburl){ 

@@ -52,8 +52,9 @@
 <div style="float:right; width:35%;" class="ryt-url">
  <span style="font-size:20px; color:green" class="msg">Latest Bids</span><br><br>
  <span class = "bid-list" ng-show = "allbids.bids != ''" ng-repeat="bid in allbids.bids" >
-   <span style="font-size:16px; color:black">JobUrl:</span>
-   <span class = "url_{{$index}}"  style="font-size:16px; color:green">{{bid.JobUrl}}</span><br>
+   <!--span style="font-size:16px; color:black">JobUrl:</span-->
+   <span  style="font-size:16px; color:black">{{bid.JobPortal}}</span>:
+   <span class = "url_{{$index}}"  style="font-size:16px; color:green">{{bid.JobId}}</span><br>
    <a ng-click="change($event)" id = "url_{{$index}}" href="javascript:void(0);">Change Job Status </a>&nbsp;&nbsp;
    <a ng-click="delete($event)" id = "url_{{$index}}" href="javascript:void(0);" >Delete Job</a>&nbsp;&nbsp;
    <a ng-click="viewbid($event)" id = "url_{{$index}}" href="javascript:void(0);">View Job</a><br>
