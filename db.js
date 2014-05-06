@@ -3,7 +3,7 @@ var mysql = function localConnect(){
     return require('mysql').createConnection({
         hostname: 'localhost',
         user: 'root',
-        password: 'root',
+        password: '',
         database: 'new-hrm'
     });
 }

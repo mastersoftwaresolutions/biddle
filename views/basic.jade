@@ -21,8 +21,9 @@ html(lang='en', ng-app='biddle')
     script(src='/javascripts/services.js')
     script(src='/javascripts/controller.js')
     script(src='/javascripts/js/validatebidform.js')
+    script(src='/javascripts/js/tooltip.js')
     link(rel='shortcut icon', type='image/png', href='fevicon.ico')
-  body(ng-controller="bidCtrl")
+  body(ng-controller="loginCtrl")
    .header-main
       .dibble-hdng
         h4
@@ -41,6 +42,9 @@ html(lang='en', ng-app='biddle')
           li
             a(href='/projectlist')
               span Project List
+          li
+            span(ng-show="user" , class="log-out")
+            a.navbar-brand.lgt-nvg(href='/', ng-click="logout()") Logout
                   
     div.container
       div(ng-view)

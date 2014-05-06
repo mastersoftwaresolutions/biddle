@@ -24,21 +24,27 @@ var io = require('socket.io').listen(server);
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 
+// to connect mysql
+var connection = require('./db.js').localConnect();
+connection.connect();   
+
 //Local strategy
 passport.use(new LocalStrategy(
-  function(username, password, done) {
-    User.findOne({ username: username }, function (err, user) {
-      if (err) { return done(err); }
-      if (!user) {
-        return done(null, false, { message: 'Incorrect username.' });
+    function(username, password, done) {
+      console.log(username , password);
+      //console.log('SELECT * FROM employees WHERE Username = "'+ username +'" AND  Password = "'+ password +'" AND Designation = "Bidding Manager"');
+      connection.query('SELECT * FROM employees WHERE Username = "'+ username +'" AND  Password = "'+ password +'" AND Designation = "Bidding Manager"', function(error , response){
+      if (response.length != 0)  {
+        //res.cookie('cookiename', response[0].Username, { maxAge: 1 * 24 * 60 * 60 * 1000 });
+        return done(null, {name: response});
+
       }
-      if (!user.validPassword(password)) {
-        return done(null, false, { message: 'Incorrect password.' });
-      }
-      return done(null, user);
+      return done(null, false, { message: 'Incorrect username.' });
+     
     });
-  }
+}
 ));
+
 
 //Serialized and deserialized methods when got from session
 passport.serializeUser(function(user, done) {
@@ -94,7 +100,6 @@ app.get('/', routes.search);
 app.post('/newproject', routes.newproject(db));
 
 app.get('/login', routes.login);
-app.post('/checklogin', routes.checklogin);
 app.get('/addproject', routes.addproject);
 app.get('/autocomplete', routes.autocomplete(db));
 app.get('/keyautocomplete', routes.keyautocomplete(db));
@@ -111,12 +116,13 @@ app.post('/reportbid', routes.reportbid);
 app.get('/searchbid', routes.searchbid);
 app.post('/bidsave', routes.bidsave);
 app.post('/bidgetsearch',routes.bidgetsearch);
-app.get('/latestbids', routes.latestbids);
+app.post('/latestbids', routes.latestbids);
 app.post('/changestatus', routes.changestatus);
 app.get('/deletebid', routes.deletebid);
 
 //route to log in
-app.post('/login', passport.authenticate('local'), function(req, res) {
+app.post('/checklogin', passport.authenticate('local'), function(req, res) {
+  console.log(req.user);
     res.send(req.user);
 });
 
@@ -126,6 +132,28 @@ app.post('/logout', function(req, res){
     res.send(200);
 });
 
+
+
+//check user login credentials
+// app.post( '/checklogin1', function(req, res){
+//     //console.log(req.body.username);
+//     var username = req.body.username;
+//     var password = req.body.password;
+//     //console.log("heredascfascf",username,password);
+//     connection.query('SELECT * FROM employees WHERE Username = "'+ username +'" AND  Password = "'+ password +'" AND Designation = "Bidding Manager"', function(error , response){
+//         if (!error){
+//             res.json({"userinfo":response});
+//         if (response != ''){
+//             res.cookie('cookiename', response[0].Username, { maxAge: 1 * 24 * 60 * 60 * 1000 });
+//         }
+//         //res.cookie('cookiename', response[0].Username, { maxAge: 900000  });
+//         }else{
+//             console.log("error");
+//         }
+
+
+//     });
+// }
 
 //app.get('/imagelist', routes.imagelist(db));
 http.createServer(app).listen(app.get('port'), function(){

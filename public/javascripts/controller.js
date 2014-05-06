@@ -133,8 +133,11 @@ function bidCtrl($scope,$http){
 
 // Controller for  bids 
 function Searchbid($scope,$http,$cookies) {
-    $scope.user= $.cookie("cookiename");
-    $http({method: 'GET', url: '/latestbids'}).
+    var user= $.cookie("cookiename");
+    var cookie={
+            cookiename : user
+            };
+    $http({method: 'POST', url: '/latestbids',data:cookie}).
     success(function(data, status, headers, config) {
     $scope.allbids = data;
     });
@@ -397,7 +400,7 @@ function Searchbid($scope,$http,$cookies) {
 
 
 // check login details 
-function loginCtrl($scope,$http,$location,$cookies){
+function loginCtrl($scope,$http,$rootScope,$location,$cookies){
   $scope.userlogin = function() {
     var username = $scope.username;
     var password = $scope.password;
@@ -409,10 +412,13 @@ function loginCtrl($scope,$http,$location,$cookies){
 
     $http({method: 'POST', url: '/checklogin',data:user}).
     success(function(data, status, headers, config) {
-        console.log(data.userinfo.length);
+        //console.log(data.name[0].Username,"dataf");
 
-        if (data.userinfo.length != 0){
-            $location.path('/searchbid');  
+        if (data){
+            $rootScope.user = "done" ;
+            $.cookie("cookiename", data.name[0].Username);
+            $location.url('/searchbid');  
+              
         }
         else{
             $(".error-msg").show();

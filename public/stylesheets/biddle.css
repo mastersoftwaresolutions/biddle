@@ -131,7 +131,7 @@ body
 	display: inline-block;
 	color:#1292FA;
     font-size: 80px;
-    width: auto;
+    width: auto; 
 }
 .search-txt
 {
@@ -685,4 +685,244 @@ font-size:30px;
 {
 	border:1px solid #999999;
 
+}
+.search-icon, .search-icon:focus, .search-icon:active
+{
+	
+ 	background: url("../images/search.png") no-repeat scroll center center #00B79F;
+    margin-left: -7px;
+    padding: 20px 30px;
+	border:none;	outline:none;
+	border-radius:0 4px 4px 0;
+	margin-top:8px;
+}
+.input-small
+{
+	width:88%;
+	height:40px;
+	margin-top:8px;
+	display:inline-block;
+}
+.input-small:focus
+{
+	box-shadow:none;
+	border:1px solid #999;
+}
+.search-icon:hover
+{
+	background: url("../images/search.png") no-repeat scroll center center #00B7FF;
+
+	border:none;
+}
+.job-inft
+{
+	width:80%;
+	float:left;
+}
+.job-stts
+{
+	width:auto;
+	float:right;
+}
+.bid-list 
+{
+	width:100%;
+	display:inline-block;
+	padding:5px 0px;
+	text-indent:10px;
+}
+.bid-list
+{
+	font-size:13px;
+	padding:10px;
+	border:1px solid #ddd;
+	border-bottom:none;
+}
+.bid-list:last-child
+{
+	border-bottom:1px solid #ddd;
+}
+.bid-list:nth-child(even) 
+{
+	/*background:#f6fff6;*/
+	background:#f7f7f7;
+	
+}
+.job-stts a
+{
+	width:16px;
+	height:16px;
+	display:inline-block;
+	vertical-align:top;
+	float:right;
+	margin:0px 3px;
+	background-position:center !important;
+	background-size:12px !important;
+}
+.job-stts a:hover
+{
+	opacity:1;
+}
+.job-stts a
+{
+	background:url(../images/change.png) no-repeat #f8d37a;
+}
+.job-stts a + a
+{
+	background:url(../images/job.png) no-repeat #fa3a3a;
+}
+.job-stts a + a + a
+{
+	background:url(../images/view.png) no-repeat #3ae1fa;
+}
+.job-stts a + a + a + a
+{
+	background:url(../images/lead.png) no-repeat #9fe454;
+}
+.inform-ytye
+{
+	float: right;
+    width: 38%;
+}
+.jbprtl-e
+{
+	background: url("../images/odesk.png") no-repeat scroll left center rgba(0, 0, 0, 0);
+    display: inline-block;
+    height: 7px;
+    margin-top: 0;
+    overflow: hidden;
+	opacity:0.8;
+	float:left;
+    vertical-align: top;
+    width: 15px;
+	padding:10px;
+}
+.url_1.jbprtl-e, .url_3.jbprtl-e
+{
+	background: url("../images/elance.png") no-repeat scroll left center rgba(0, 0, 0, 0);
+}
+.url-job-mt
+{
+	display: inline-block;
+    margin-right: 5px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 30%;
+}
+.bdr-dtl-fld
+{
+	color: #000000;
+    display: inline-block;
+    margin-top: 10px;
+}
+#checkuser .job-stts a
+{
+	margin-top:5px;
+}
+.status-msg
+{	
+ 	background:url("../images/check.png") 10px center no-repeat #f0fff0;
+    border: 1px solid #a5c8a5;
+    color: #008000 !important;
+    float: left;
+    margin-top: 20px;
+    padding: 8px 10px;
+	padding-left:40px;
+    width: 96%;
+}
+.mjob-lnk
+{
+	display: inline-block;
+	vertical-align:top;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 56%;
+}
+.mjob-lnk a
+{
+	max-width:100%;
+	text-overflow: ellipsis;
+	overflow:hidden;
+	white-space:nowrap;
+	
+}
+.job-lead
+{
+	width:100%;
+	float:left;
+	margin-top:10px;
+}
+.job-lead a
+{
+	 background-position: center center !important;
+    background-size: 20px auto !important;
+    display: inline-block;
+    float: left;
+    height: 40px;
+    margin: 0 3px;
+    vertical-align: top;
+    width: 40px;
+}
+.job-lead a:hover
+{
+	opacity:0.8;
+}
+.job-lead-1
+{
+	background:url(../images/changel.png) no-repeat #f8d37a;
+}
+.job-lead-2
+{
+	background:url(../images/deletel.png) no-repeat #fa3a3a;
+}
+.job-lead-3
+{
+	background:url(../images/viewl.png) no-repeat #3ae1fa !important;
+}
+.job-lead-4
+{
+	background:url(../images/leadl.png) no-repeat #9fe454;
+}
+.new-msg
+{
+	background:url("../images/info.png") 10px center no-repeat #FEFFEC;
+    border: 1px solid #E5E7B4;
+    color: #745815 !important;
+    float: left;
+    margin-top: 10px;
+    padding: 8px 10px;
+	font-size:14px;
+	padding-left:35px;
+    width: 96%;
+}
+.msg-f-ur
+{
+	background:url("../images/info.png") 10px center no-repeat #FEFFEC;
+    border: 1px solid #E5E7B4;
+    color: #745815 !important;
+    float: left;
+    margin-top: 10px;
+    padding: 8px 10px;
+	font-size:14px;
+	padding-left:35px;
+    width: 96%;
+}
+.form-styl-mt
+{
+	width:100%;
+	float:left;
+	margin-top:15px;
+}
+.apply-btn
+{
+	background:#00B7FF;
+	padding:10px 20px;
+	border:none;
+	border-radius:0px;
+}
+.cssmenu ul li a.lgt-nvg
+{
+	 background: url("../images/logout.png") no-repeat scroll right center rgba(0, 0, 0, 0);
+    padding: 0 !important;
+    padding-right: 25px !important;
 }
